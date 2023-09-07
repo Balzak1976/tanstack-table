@@ -1,8 +1,10 @@
 import './App.css';
-import Table from './components/Tanstack';
+import { columns } from './components/ColumnDef';
+import DataTable from './components/DataTable';
+import data from './components/data.json'
 
 function App() {
-	return <Table />;
+	return <DataTable columns={columns} data={data} />;
 }
 
 export default App;
