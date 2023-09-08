@@ -4,7 +4,7 @@ import DataTable from './components/DataTable';
 import data from './components/data.json'
 
 function App() {
-	return <DataTable columns={columns} data={data} />;
+	return <DataTable  data={data} columns={columns} />;
 }
 
 export default App;

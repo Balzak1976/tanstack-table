@@ -1,27 +1,32 @@
 import { ColumnDef } from '@tanstack/react-table';
 
-export type Student = {
-	Application_No: number;
-	Name: string;
-	Father_Name: string;
-	DOB: string;
+export type GoodsTable = {
+	name: string;
+	qty: number;
+	price: number;
+	total: number;
+	stocks: number;
 };
 
-export const columns: ColumnDef<Student>[] = [
+export const columns: ColumnDef<GoodsTable>[] = [
 	{
-		accessorKey: 'Application_No',
-		header: 'Application_No',
+		accessorKey: 'name',
+		header: 'Название',
 	},
 	{
-		accessorKey: 'Name',
-		header: 'Name',
+		accessorKey: 'qty',
+		header: 'Кол-во',
 	},
 	{
-		accessorKey: 'Father_Name',
-		header: 'Father_Name',
+		accessorKey: 'price',
+		header: 'Цена',
 	},
 	{
-		accessorKey: 'DOB',
-		header: 'DOB',
+		accessorFn: row => row.qty * row.price,
+		header: 'Итог',
+	},
+	{
+		accessorKey: 'stocks',
+		header: 'Склад',
 	},
 ];
