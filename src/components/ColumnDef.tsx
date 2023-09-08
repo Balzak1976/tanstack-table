@@ -1,4 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
+import {useState} from 'react'
 
 export type GoodsTable = {
 	name: string;
@@ -8,6 +9,12 @@ export type GoodsTable = {
 	stocks: number;
 };
 
+const TableCell = () => {
+	const [value, setValue] = useState('');
+
+	return <input value={value} onChange={e => setValue(e.target.value)}/>
+}
+
 export const columns: ColumnDef<GoodsTable>[] = [
 	{
 		accessorKey: 'name',
@@ -16,6 +23,7 @@ export const columns: ColumnDef<GoodsTable>[] = [
 	{
 		accessorKey: 'qty',
 		header: 'Кол-во',
+		cell: TableCell,
 	},
 	{
 		accessorKey: 'price',
@@ -28,5 +36,10 @@ export const columns: ColumnDef<GoodsTable>[] = [
 	{
 		accessorKey: 'stocks',
 		header: 'Склад',
+	},
+	{
+		id: 'info',
+		header: 'Инфо',
+		cell: value => { console.log(value.row.id === '0' && value)}
 	},
 ];
