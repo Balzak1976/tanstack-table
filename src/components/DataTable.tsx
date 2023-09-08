@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
 	ColumnDef,
 	flexRender,
@@ -7,51 +8,71 @@ import {
 import './DataTable.css';
 
 interface DataTableProps<TData, TValue> {
+	defaultData: TData[];
 	columns: ColumnDef<TData, TValue>[];
-	data: TData[];
 }
 
 function DataTable<TData, TValue>({
-	data,
+	defaultData,
 	columns,
 }: DataTableProps<TData, TValue>) {
+	useState;
+	const [data, setData] = useState(() => [...defaultData]);
+
 	const table = useReactTable({
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
+		meta: {
+			updateData: (rowIndex: number, columnId: string, value: string) => {
+				setData(old =>
+					old.map((row, index) => {
+						if (index === rowIndex) {
+							return {
+								...old[rowIndex],
+								[columnId]: value,
+							};
+						}
+						return row;
+					})
+				);
+			},
+		},
 	});
 
 	return (
-		<table>
-			<thead>
-				{table.getHeaderGroups().map(headerGroup => (
-					<tr key={headerGroup.id}>
-						{headerGroup.headers.map(header => (
-							<th key={header.id}>
-								{header.isPlaceholder
-									? null
-									: flexRender(
-											header.column.columnDef.header,
-											header.getContext()
-                  )
-                }
-							</th>
-						))}
-					</tr>
-				))}
-			</thead>
-			<tbody>
-				{table.getRowModel().rows.map(row => (
-					<tr key={row.id}>
-						{row.getVisibleCells().map(cell => (
-							<td key={cell.id}>
-								{flexRender(cell.column.columnDef.cell, cell.getContext())}
-							</td>
-						))}
-					</tr>
-				))}
-			</tbody>
-		</table>
+		<>
+			<table>
+				<thead>
+					{table.getHeaderGroups().map(headerGroup => (
+						<tr key={headerGroup.id}>
+							{headerGroup.headers.map(header => (
+								<th key={header.id}>
+									{header.isPlaceholder
+										? null
+										: flexRender(
+												header.column.columnDef.header,
+												header.getContext()
+										  )}
+								</th>
+							))}
+						</tr>
+					))}
+				</thead>
+				<tbody>
+					{table.getRowModel().rows.map(row => (
+						<tr key={row.id}>
+							{row.getVisibleCells().map(cell => (
+								<td key={cell.id}>
+									{flexRender(cell.column.columnDef.cell, cell.getContext())}
+								</td>
+							))}
+						</tr>
+					))}
+				</tbody>
+			</table>
+			<pre>{JSON.stringify(data, null, '\t')}</pre>
+		</>
 	);
 }
 

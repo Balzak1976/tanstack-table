@@ -1,5 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
-import {useState} from 'react'
+import { useState, useEffect } from 'react';
 
 export type GoodsTable = {
 	name: string;
@@ -9,11 +9,26 @@ export type GoodsTable = {
 	stocks: number;
 };
 
-const TableCell = () => {
-	const [value, setValue] = useState('');
+const TableCell = ({ getValue, row, column, table }) => {
+	const initialValue = getValue();
+	const [value, setValue] = useState(initialValue);
 
-	return <input value={value} onChange={e => setValue(e.target.value)}/>
-}
+	useEffect(() => {
+		setValue(initialValue);
+	}, [initialValue]);
+
+	const onBlur = () => {
+		table.options.meta?.updateData(row.index, column.id, value);
+	};
+
+	return (
+		<input
+			value={value}
+			onChange={e => setValue(e.target.value)}
+			onBlur={onBlur}
+		/>
+	);
+};
 
 export const columns: ColumnDef<GoodsTable>[] = [
 	{
@@ -28,6 +43,10 @@ export const columns: ColumnDef<GoodsTable>[] = [
 	{
 		accessorKey: 'price',
 		header: 'Цена',
+		cell: value => {
+			console.log(value);
+			return value.getValue();
+		},
 	},
 	{
 		accessorFn: row => row.qty * row.price,
@@ -40,6 +59,5 @@ export const columns: ColumnDef<GoodsTable>[] = [
 	{
 		id: 'info',
 		header: 'Инфо',
-		cell: value => { console.log(value.row.id === '0' && value)}
 	},
 ];
