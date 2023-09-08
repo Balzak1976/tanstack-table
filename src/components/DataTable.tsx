@@ -16,7 +16,7 @@ function DataTable<TData, TValue>({
 	defaultData,
 	columns,
 }: DataTableProps<TData, TValue>) {
-	useState;
+	
 	const [data, setData] = useState(() => [...defaultData]);
 
 	const table = useReactTable({
@@ -27,6 +27,8 @@ function DataTable<TData, TValue>({
 			updateData: (rowIndex: number, columnId: string, value: string) => {
 				setData(old =>
 					old.map((row, index) => {
+						// console.log('row: ', row);
+
 						if (index === rowIndex) {
 							return {
 								...old[rowIndex],
@@ -53,7 +55,7 @@ function DataTable<TData, TValue>({
 										: flexRender(
 												header.column.columnDef.header,
 												header.getContext()
-										  )}
+									)}
 								</th>
 							))}
 						</tr>
