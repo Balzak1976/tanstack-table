@@ -20,6 +20,4 @@ export const TableCell = ({ getValue, row, column, table }) => {
 			onBlur={onBlur}
 		/>
 	);
-}
-
-export default TableCell;
+};

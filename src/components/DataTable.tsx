@@ -27,7 +27,7 @@ function DataTable<TData, TValue>({
 			updateData: (rowIndex: number, columnId: string, value: string) => {
 				setData(old =>
 					old.map((row, index) => {
-						// console.log('row: ', row);
+						console.log('row: ', row);
 
 						if (index === rowIndex) {
 							return {

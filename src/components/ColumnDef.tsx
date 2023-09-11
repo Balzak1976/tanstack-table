@@ -1,5 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
-import  TableCell  from './TableCell';
+import { TableCell } from './TableCell';
 
 export type GoodsTable = {
 	name: string;
@@ -23,7 +23,7 @@ export const columns: ColumnDef<GoodsTable>[] = [
 		accessorKey: 'price',
 		header: 'Цена',
 		cell: value => {
-			console.log(value);
+			// console.log(value);
 			return value.getValue();
 		},
 	},
