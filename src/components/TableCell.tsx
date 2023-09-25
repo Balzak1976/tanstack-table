@@ -14,6 +14,7 @@ export const TableCell = ({ getValue, row, column, table }) => {
 
 	return (
 		<input
+			name={column.id}
 			style={{ width: '20px' }}
 			value={value}
 			onChange={e => setValue(e.target.value)}

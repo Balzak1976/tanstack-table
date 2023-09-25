@@ -1,4 +1,4 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { createColumnHelper } from '@tanstack/react-table';
 import { TableCell } from './TableCell';
 
 export type GoodsTable = {
@@ -6,37 +6,45 @@ export type GoodsTable = {
 	qty: number;
 	price: number;
 	total: number;
+	discount: number;
 	stocks: number;
 };
 
-export const columns: ColumnDef<GoodsTable>[] = [
-	{
-		accessorKey: 'name',
+const columnHelper = createColumnHelper<GoodsTable>();
+console.log('columnHelper: ', columnHelper);
+
+
+export const columns = [
+	columnHelper.accessor('name', {
 		header: 'Название',
-	},
-	{
-		accessorKey: 'qty',
+	}),
+	
+	columnHelper.accessor('qty', {
 		header: 'Кол-во',
 		cell: TableCell,
-	},
-	{
-		accessorKey: 'price',
+	}),
+	
+	columnHelper.accessor('price', {
 		header: 'Цена',
 		cell: value => {
 			// console.log(value);
 			return value.getValue();
 		},
-	},
-	{
-		accessorFn: row => row.qty * row.price,
+	}),
+	
+	columnHelper.accessor(row => {
+		console.log('row: ', row);
+
+		return row.qty * row.price
+	}, {
 		header: 'Итог',
-	},
-	{
-		accessorKey: 'stocks',
+	}),
+
+	columnHelper.display({
+		id: 'discount',
+		header: 'Скидка',
+	}),
+	columnHelper.accessor('stocks', {
 		header: 'Склад',
-	},
-	{
-		id: 'info',
-		header: 'Инфо',
-	},
+	}),
 ];
